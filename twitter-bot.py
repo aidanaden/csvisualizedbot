@@ -136,7 +136,7 @@ def main():
     
 
     # sleep for 10 mins before checking again
-    sleep(3600)
+    sleep(600)
 
 
 
