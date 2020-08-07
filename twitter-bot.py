@@ -102,7 +102,7 @@ def main():
 
 
       # cycle through latest 10 tweets from user (might need to fix in case user creates
-      # more than 10 tweets fromt he last time we checked the account)
+      # more than 10 tweets fromt the last time we checked the account)
       for tweet in tweepy.Cursor(api.user_timeline, id=inspiration_acc.id, include_entities=True).items(10):
 
           
@@ -113,7 +113,7 @@ def main():
           # if tweet is inspirational,
           # type text of tweet to console
           print('tweet is inspirational!')
-          print(tweet.text)
+          print(tweet.text) 
 
 
           # attempt to retweet inspirational tweet
@@ -141,4 +141,5 @@ def main():
 
 
 
-main()
+if __name__ == '__main__':
+    main()
