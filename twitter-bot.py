@@ -1,5 +1,6 @@
 import argparse
 import tweepy
+import emoji
 from time import sleep
 from credentials import *
 from datetime import datetime
@@ -12,6 +13,13 @@ def get_current_date_time():
   now = datetime.now()
   now_str = now.strftime("%d/%m/%Y %H:%M:%S")
   return now_str
+
+
+
+
+def check_if_string_contains_emoji(string):
+  has_emoji = bool(emoji.get_emoji_regexp().search(string))
+  return has_emoji
 
 
 
@@ -45,23 +53,32 @@ def check_if_tweet_inspirational(status):
   
   # check if status/tweet is a reply
   # to another person's tweet
-  elif status.in_reply_to_user_id is not None:
-    print(f'Tweet is a reply to another tweet! Tweet written by {status.user.name}. Not gonna retweet!')
+  if status.in_reply_to_user_id is not None:
+    print(f'\nTweet is a reply to another tweet! Tweet written by {status.user.name}. Not gonna retweet!')
     return False
 
 
   # check if status/tweet is a quote
   # retweet/quote status
-  elif status.is_quote_status is True:
-    print(f'Tweet is a quote retweet! Tweet written by {status.user.name}. Not gonna retweet!')
+  if status.is_quote_status is True:
+    print(f'\nTweet is a quote retweet! Tweet written by {status.user.name}. Not gonna retweet!')
     return False
 
   
   # check if tweet is a retweet
-  elif hasattr(status, 'retweeted_status') is True:
-    print(f'Tweet is a retweet! Original tweet was written by {status.retweeted_status.user.name}. Not gonna retweet!')
+  if hasattr(status, 'retweeted_status') is True:
+    print(f'\nTweet is a retweet! Original tweet was written by {status.retweeted_status.user.name}. Not gonna retweet!')
     return False
 
+  
+  if "?" in status.text:
+    print(f'\nTweet contains "?"! Tweet written by {status.user.name}. Not gonna retweet!')
+    return False
+
+  
+  if check_if_string_contains_emoji(status.text):
+    print(f'\nTweet contains an emoji! Tweet written by {status.user.name}. Not gonna retweet!')
+    return False
   
   # if passes all filters, tweet has 
   # been verified to be inspirational
@@ -98,7 +115,7 @@ def main():
       
 
       # print current account being cycled through
-      print(f'Currently at {inspiration_acc.name}\'s account')
+      print(f'Currently at {inspiration_acc.name}\'s account\n')
 
 
       # cycle through latest 10 tweets from user (might need to fix in case user creates
@@ -134,7 +151,6 @@ def main():
             break
         
     
-
     # sleep for 10 mins before checking again
     sleep(600)
 
