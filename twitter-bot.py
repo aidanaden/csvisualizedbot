@@ -79,7 +79,13 @@ def check_if_tweet_inspirational(status):
   if check_if_string_contains_emoji(status.text):
     print(f'\nTweet contains an emoji! Tweet written by {status.user.name}. Not gonna retweet!')
     return False
+
   
+  if ('media' in status.entities):
+    print(f'\nTweet contains media! Tweet written by {status.user.name}. Not gonna retweet!')
+    return False
+  
+
   # if passes all filters, tweet has 
   # been verified to be inspirational
   else:
