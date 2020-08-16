@@ -75,6 +75,11 @@ def check_if_tweet_inspirational(status):
     print(f'\nTweet contains "?"! Tweet written by {status.user.name}. Not gonna retweet!')
     return False
 
+
+  if "#" in status.text:
+    print(f'\nTweet contains "#"! Tweet written by {status.user.name}. Not gonna retweet!')
+    return False
+
   
   if check_if_string_contains_emoji(status.text):
     print(f'\nTweet contains an emoji! Tweet written by {status.user.name}. Not gonna retweet!')
